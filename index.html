@@ -3,225 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaperoning Before 2025</title>
+    <title>Chaperoning Before 2025 - Interactive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         body, html {
             font-family: 'Inter', sans-serif;
-            background-color: transparent; /* Allows perfect blending with Mindsmith background */
-            color: #1e293b;
-            /* Prevent scrolling completely */
-            overflow: hidden; 
+            background-color: transparent; /* Mindsmith background will show through */
+            color: #0f172a;
             margin: 0;
             padding: 0;
             height: 100vh;
+            overflow: hidden; /* No scrollbars */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body::-webkit-scrollbar { display: none; }
+
+        #app-container {
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            box-sizing: border-box;
         }
 
-        .card-top-border {
-            border-top: 4px solid #2563eb; /* Updated to Mindsmith's blue */
-        }
-
-        .card-top-border {
-            border-top: 4px solid #1d4ed8;
-        }
-
-        .icon-circle {
-            display: inline-flex;
+        .slider-viewport {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 2px solid #ea580c;
-            color: #ea580c;
-            font-weight: bold;
-            font-size: 13px;
-            margin-right: 10px;
-            flex-shrink: 0;
+            perspective: 1000px; /* For 3D effects */
         }
 
-        /* Carousel/Grid stacking setup */
-        .slider-container {
-            display: grid;
-            grid-template-areas: "slide";
-            flex-grow: 1;
-            padding: 1rem;
-            align-items: center; /* Center vertically in the available space */
-        }
-
-        /* Slide Transition Animations */
         .slide {
-            grid-area: slide;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
             opacity: 0;
-            transform: scale(0.95) translateY(10px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px) scale(0.98);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
             visibility: hidden;
-            width: 100%;
-            max-width: 96%; /* Expanded to fill the dead space */
-            margin: 0 auto;
+            padding: 1rem 0;
         }
 
         .slide.active {
             opacity: 1;
-            transform: scale(1) translateY(0);
+            transform: translateY(0) scale(1);
             pointer-events: auto;
             visibility: visible;
+            z-index: 10;
+        }
+
+        .reveal-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-left: 4px solid #3b82f6;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .reveal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(59, 130, 246, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .reveal-content {
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.5s ease-out;
+        }
+
+        .reveal-card.open .reveal-content {
+            max-height: 200px; /* arbitrary large enough height */
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        
+        .reveal-card.open {
+            background: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #1d4ed8;
+        }
+
+        .flip-container {
+            perspective: 1000px;
+            height: 100%;
+            min-height: 220px;
+            cursor: pointer;
+        }
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-container.flipped .flip-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .flip-front {
+            background: #ffffff;
+            color: #0f172a;
+        }
+        .flip-front:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+        .flip-back {
+            background: #1e293b;
+            color: white;
+            transform: rotateY(180deg);
+            border: none;
+            text-align: left;
+            align-items: flex-start;
+        }
+
+        @keyframes subtlePulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        .pulse-indicator {
+            animation: subtlePulse 2s infinite;
+        }
+
+        /* Toggle switch for Audio */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #3b82f6;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #3b82f6;
         }
     </style>
 </head>
 <body>
 
-    <!-- Main Content Area -->
-    <div class="slider-container px-4 md:px-12">
+    <div id="app-container">
         
-        <!-- SLIDE 1 -->
-        <section class="slide active" id="slide-0">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">The Common Approach Before 2025</h1>
-                <p class="text-slate-600 text-base md:text-lg">Before the new guidance, chaperoning in general practice had significant gaps.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
-                <div class="bg-white rounded-xl shadow-sm p-6 lg:p-8 card-top-border flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Reactive, not proactive</h3>
-                    <p class="text-slate-600 text-sm lg:text-base leading-relaxed">
-                        A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.
-                    </p>
-                </div>
-                <div class="bg-white rounded-xl shadow-sm p-6 lg:p-8 card-top-border flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">No requirement at booking</h3>
-                    <p class="text-slate-600 text-sm lg:text-base leading-relaxed">
-                        There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.
-                    </p>
-                </div>
-                <div class="bg-white rounded-xl shadow-sm p-6 lg:p-8 card-top-border flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Family members accepted</h3>
-                    <p class="text-slate-600 text-sm lg:text-base leading-relaxed">
-                        In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.
-                    </p>
-                </div>
-                <div class="bg-white rounded-xl shadow-sm p-6 lg:p-8 card-top-border md:col-span-1 sm:col-span-2 flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Remote consultations uncovered</h3>
-                    <p class="text-slate-600 text-sm lg:text-base leading-relaxed">
-                        Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.
-                    </p>
-                </div>
-                <div class="bg-white rounded-xl shadow-sm p-6 lg:p-8 card-top-border md:col-span-2 sm:col-span-2 flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Inconsistent documentation</h3>
-                    <p class="text-slate-600 text-sm lg:text-base leading-relaxed">
-                        Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.
-                    </p>
+        <header class="flex justify-between items-center mb-6 shrink-0">
+            <div>
+                <div class="inline-flex items-center space-x-2 text-sm font-semibold tracking-wider text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full mb-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Historical Context</span>
                 </div>
             </div>
-        </section>
 
-        <!-- SLIDE 2 -->
-        <section class="slide" id="slide-1">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Where the Gaps Created Risk</h2>
-                <p class="text-slate-600 text-base md:text-lg">These were not minor administrative oversights. Each gap created real risk.</p>
+            <!-- Audio Toggle -->
+            <div class="flex items-center bg-white px-4 py-2 rounded-full shadow-sm border border-slate-200">
+                <svg class="w-5 h-5 text-slate-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                <span class="text-sm font-medium text-slate-700 mr-3">Audio Narration</span>
+                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input type="checkbox" name="toggle" id="audioToggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-slate-300 appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0"/>
+                    <label for="audioToggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-300 cursor-pointer transition-colors duration-300"></label>
+                </div>
             </div>
+        </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:p-8 flex items-start">
-                    <div class="icon-circle mt-1">i</div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Patient risk</h3>
-                        <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                            Patients unaware of their right could not exercise it. Vulnerable groups, including children and those with communication needs, were particularly exposed.
-                        </p>
+        <main class="slider-viewport">
+            
+            <!-- SLIDE 1: Interactive Grid (Kinesthetic/Reading) -->
+            <section class="slide active" id="slide-0" data-audio="Before the new guidance, chaperoning in general practice had significant gaps. Tap the cards below to explore the common approaches before 2025.">
+                <div class="text-center mb-6 shrink-0">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">The Pre-2025 Reality</h1>
+                    <p class="text-slate-500 text-lg">Tap to uncover the historical gaps in chaperoning practice.</p>
+                </div>
+
+                <!-- Dynamically sized grid that fills available space -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-full items-stretch pb-4">
+                    
+                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="Reactive, not proactive. A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.">
+                        <div class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span>
+                                Reactive, not proactive
+                            </h3>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="reveal-content">
+                            <p class="text-slate-600 text-base leading-relaxed mt-2">A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.</p>
+                        </div>
+                    </div>
+
+                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="No requirement at booking. There was no expectation to raise the possibility at the time of booking. The offer arrived moments before the examination.">
+                        <div class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+                                Missing at booking
+                            </h3>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="reveal-content">
+                            <p class="text-slate-600 text-base leading-relaxed mt-2">There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.</p>
+                        </div>
+                    </div>
+
+                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="Family members accepted. Relatives accompanied the patient and were treated informally as fulfilling the chaperone function, without training or impartiality.">
+                        <div class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">3</span>
+                                Informal relatives
+                            </h3>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="reveal-content">
+                            <p class="text-slate-600 text-base leading-relaxed mt-2">In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.</p>
+                        </div>
+                    </div>
+
+                    <div class="reveal-card rounded-xl p-5 lg:col-span-1 md:col-span-2" onclick="toggleCard(this)" data-audio="Remote consultations uncovered. Chaperoning policy applied only to face-to-face examinations, ignoring digital images.">
+                        <div class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">4</span>
+                                Digital blindspots
+                            </h3>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="reveal-content">
+                            <p class="text-slate-600 text-base leading-relaxed mt-2">Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.</p>
+                        </div>
+                    </div>
+
+                    <div class="reveal-card rounded-xl p-5 lg:col-span-2 md:col-span-2" onclick="toggleCard(this)" data-audio="Inconsistent documentation. Clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.">
+                        <div class="flex justify-between items-center w-full">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">5</span>
+                                Poor documentation
+                            </h3>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="reveal-content">
+                            <p class="text-slate-600 text-base leading-relaxed mt-2">Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:p-8 flex items-start">
-                    <div class="icon-circle mt-1">i</div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Clinician risk</h3>
-                        <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                            Without a documented independent witness, clinicians had no protection against unfounded allegations. Incomplete records left practices unable to demonstrate safe practice to the CQC.
+            </section>
+
+            <section class="slide" id="slide-1" data-audio="These were not minor administrative oversights. Each gap created real risk. Flip the cards to examine the specific risks.">
+                <div class="text-center mb-6 shrink-0">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">The Impact of the Gaps</h2>
+                    <p class="text-slate-500 text-lg">Click the cards to reveal the hidden risks.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full items-stretch pb-4">
+                    
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Patient risk. Patients unaware of their right could not exercise it. Vulnerable groups were particularly exposed.">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                </div>
+                                <h3 class="text-xl font-bold">Patient Risk</h3>
+                                <p class="text-slate-400 text-sm mt-2">Tap to reveal impact</p>
+                            </div>
+                            <div class="flip-back">
+                                <h3 class="text-xl font-bold text-orange-400 mb-3 border-b border-slate-600 pb-2 w-full">Patient Exposure</h3>
+                                <p class="text-slate-200 text-base leading-relaxed">Patients unaware of their right could not exercise it. Vulnerable groups, including children and those with communication needs, were particularly exposed.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Clinician risk. Without a documented independent witness, clinicians had no protection against unfounded allegations.">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                </div>
+                                <h3 class="text-xl font-bold">Clinician Risk</h3>
+                                <p class="text-slate-400 text-sm mt-2">Tap to reveal impact</p>
+                            </div>
+                            <div class="flip-back">
+                                <h3 class="text-xl font-bold text-orange-400 mb-3 border-b border-slate-600 pb-2 w-full">Lack of Protection</h3>
+                                <p class="text-slate-200 text-base leading-relaxed">Without a documented independent witness, clinicians had no protection against unfounded allegations. Incomplete records left practices unable to demonstrate safe practice to the CQC.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Safeguarding gap. Use of family members meant no independent safeguarding presence during intimate examinations.">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                </div>
+                                <h3 class="text-xl font-bold">Safeguarding Gap</h3>
+                                <p class="text-slate-400 text-sm mt-2">Tap to reveal impact</p>
+                            </div>
+                            <div class="flip-back">
+                                <h3 class="text-xl font-bold text-orange-400 mb-3 border-b border-slate-600 pb-2 w-full">Vulnerable Patients</h3>
+                                <p class="text-slate-200 text-base leading-relaxed">Use of family members as informal chaperones, particularly for children, meant no independent safeguarding presence during intimate examinations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Policy gap. Remote consultations were entirely outside most chaperone policies.">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <h3 class="text-xl font-bold">Policy Gap</h3>
+                                <p class="text-slate-400 text-sm mt-2">Tap to reveal impact</p>
+                            </div>
+                            <div class="flip-back">
+                                <h3 class="text-xl font-bold text-orange-400 mb-3 border-b border-slate-600 pb-2 w-full">Digital Blindspot</h3>
+                                <p class="text-slate-200 text-base leading-relaxed">Remote consultations were entirely outside most chaperone policies, at a time when digital-image-based clinical decisions were increasingly common.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="slide" id="slide-2" data-audio="The December 2025 NHS England guidance did not emerge in isolation. It was driven by three key factors. Hover or click to read more.">
+                <div class="text-center mb-8 shrink-0">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">Catalysts for Change</h2>
+                    <p class="text-slate-500 text-lg">Why national guidance became necessary.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full items-stretch pb-4">
+                    
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-audio="The NHS Sexual Safety Charter. Chaperoning is now a direct delivery mechanism of the Charter, committing to zero tolerance.">
+                        <div>
+                            <div class="bg-white/20 w-14 h-14 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
+                                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">The NHS Sexual Safety Charter</h3>
+                        </div>
+                        <p class="text-blue-100 text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                            Chaperoning is now a direct delivery mechanism of the Charter, which commits every NHS organisation to zero tolerance of sexual misconduct.
                         </p>
                     </div>
-                </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:p-8 flex items-start">
-                    <div class="icon-circle mt-1">i</div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Safeguarding gap</h3>
-                        <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                            Use of family members as informal chaperones, particularly for children, meant no independent safeguarding presence during intimate examinations.
+
+                    <div class="bg-gradient-to-br from-slate-700 to-slate-900 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-audio="CQC inspection evidence. Inspectors found significant variation in how practices offered and recorded chaperoning.">
+                        <div>
+                            <div class="bg-white/10 w-14 h-14 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
+                                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">CQC Inspection Evidence</h3>
+                        </div>
+                        <p class="text-slate-300 text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                            Inspectors found significant variation in how practices offered, recorded and evidenced chaperoning.
                         </p>
                     </div>
-                </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:p-8 flex items-start">
-                    <div class="icon-circle mt-1">i</div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Policy gap</h3>
-                        <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                            Remote consultations were entirely outside most chaperone policies, at a time when digital-image-based clinical decisions were increasingly common.
+
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-audio="Patient safety incidents. A pattern of incidents where the absence of a chaperone reduced the ability to substantiate concerns.">
+                        <div>
+                            <div class="bg-white/20 w-14 h-14 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
+                                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Patient Safety Incidents</h3>
+                        </div>
+                        <p class="text-blue-100 text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                            A pattern of incidents in which the absence of an independent chaperone reduced the ability to investigate or substantiate patient concerns.
                         </p>
                     </div>
+
                 </div>
+            </section>
+        </main>
+
+        <footer class="flex justify-between items-center py-4 mt-2 shrink-0 border-t border-slate-200/50">
+            
+            <button id="prevBtn" class="flex items-center text-slate-500 hover:text-blue-600 font-semibold transition-colors disabled:opacity-0 cursor-pointer px-2 py-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                </svg>
+                Back
+            </button>
+
+            <!-- Dots -->
+            <div class="flex space-x-3" id="dots-container">
+                <div class="dot h-2 w-8 bg-blue-600 rounded-full transition-all duration-500"></div>
+                <div class="dot h-2 w-2 bg-slate-300 rounded-full transition-all duration-500"></div>
+                <div class="dot h-2 w-2 bg-slate-300 rounded-full transition-all duration-500"></div>
             </div>
-        </section>
 
-        <!-- SLIDE 3 -->
-        <section class="slide" id="slide-2">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Why National Change Was Needed</h2>
-                <p class="text-slate-600 text-base md:text-lg">The December 2025 NHS England guidance did not emerge in isolation. It was driven by several key factors:</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-                <div class="bg-white rounded-2xl shadow-sm p-6 lg:p-10 card-top-border h-full flex flex-col justify-start">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">The NHS Sexual Safety Charter</h3>
-                    <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                        Chaperoning is now a direct delivery mechanism of the Charter, which commits every NHS organisation to zero tolerance of sexual misconduct.
-                    </p>
-                </div>
-                <div class="bg-white rounded-2xl shadow-sm p-6 lg:p-10 card-top-border h-full flex flex-col justify-start">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">CQC inspection evidence</h3>
-                    <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                        Inspectors found significant variation in how practices offered, recorded and evidenced chaperoning.
-                    </p>
-                </div>
-                <div class="bg-white rounded-2xl shadow-sm p-6 lg:p-10 card-top-border h-full flex flex-col justify-start">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">Patient safety incidents</h3>
-                    <p class="text-slate-600 text-base lg:text-lg leading-relaxed">
-                        A pattern of incidents in which the absence of an independent chaperone reduced the ability to investigate or substantiate patient concerns.
-                    </p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Navigation Controls (Fixed at bottom) -->
-    <div class="bg-transparent py-6 px-8 flex justify-between items-center relative z-10 shrink-0 w-full max-w-[96%] mx-auto">
-        
-        <!-- Previous Button -->
-        <button id="prevBtn" class="flex items-center text-slate-400 hover:text-slate-600 font-medium transition-colors disabled:opacity-50 disabled:hover:text-slate-400 cursor-pointer disabled:cursor-not-allowed">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Previous
-        </button>
-
-        <!-- Progress Indicators -->
-        <div class="flex space-x-2 items-center" id="dots-container">
-            <div class="dot h-2 w-6 bg-blue-600 rounded-full transition-all duration-300"></div>
-            <div class="dot h-2 w-2 bg-slate-300 rounded-full transition-all duration-300"></div>
-            <div class="dot h-2 w-2 bg-slate-300 rounded-full transition-all duration-300"></div>
-        </div>
-
-        <!-- Next Button -->
-        <button id="nextBtn" class="flex items-center text-white bg-blue-600 hover:bg-blue-700 py-2.5 px-5 rounded-lg font-medium transition-colors cursor-pointer shadow-sm">
-            Next
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
+            <button id="nextBtn" class="flex items-center text-white bg-blue-600 hover:bg-blue-700 active:scale-95 py-2 px-6 rounded-lg font-semibold transition-all cursor-pointer shadow-md hover:shadow-lg">
+                Continue
+            </button>
+        </footer>
     </div>
 
     <script>
@@ -230,13 +420,88 @@
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const dots = document.querySelectorAll('.dot');
+            const audioToggle = document.getElementById('audioToggle');
             let currentSlide = 0;
+            let synth = window.speechSynthesis;
+
+            // Audio capabilities
+            function speak(text) {
+                if (!audioToggle.checked) return;
+                
+                // Cancel current speech if any
+                synth.cancel();
+                
+                if (text) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 1.05; // Slightly faster than default
+                    utterance.pitch = 1;
+                    synth.speak(utterance);
+                }
+            }
+
+            // Expose logic to global scope for inline onclick handlers
+            window.toggleCard = function(element) {
+                const isOpen = element.classList.contains('open');
+                
+                // Close others in same container
+                const siblings = element.parentElement.querySelectorAll('.reveal-card');
+                siblings.forEach(el => {
+                    el.classList.remove('open');
+                    const icon = el.querySelector('svg');
+                    if(icon) icon.style.transform = 'rotate(0deg)';
+                });
+
+                if (!isOpen) {
+                    element.classList.add('open');
+                    const icon = element.querySelector('svg');
+                    if(icon) icon.style.transform = 'rotate(180deg)';
+                    speak(element.getAttribute('data-audio'));
+                }
+            };
+
+            window.toggleFlip = function(element) {
+                element.classList.toggle('flipped');
+                if(element.classList.contains('flipped')) {
+                    speak(element.getAttribute('data-audio'));
+                    // hide pulse indicator once clicked
+                    const pulse = element.querySelector('.pulse-indicator');
+                    if(pulse) pulse.classList.remove('pulse-indicator');
+                }
+            };
+
+            window.playHoverAudio = function(element) {
+                // Only play if not currently speaking to avoid spam
+                if(!synth.speaking) {
+                    speak(element.getAttribute('data-audio'));
+                }
+            };
+
+            // Stop speaking when user toggles off
+            audioToggle.addEventListener('change', (e) => {
+                if(!e.target.checked) {
+                    synth.cancel();
+                } else {
+                    speak(slides[currentSlide].getAttribute('data-audio'));
+                }
+            });
 
             function updateCarousel() {
+                synth.cancel(); // Stop talking when changing slides
+
                 // Update slides
                 slides.forEach((slide, index) => {
                     if (index === currentSlide) {
                         slide.classList.add('active');
+                        // Reset interactions on new slide load
+                        const openCards = slide.querySelectorAll('.reveal-card.open');
+                        openCards.forEach(c => c.classList.remove('open'));
+                        const flippedCards = slide.querySelectorAll('.flipped');
+                        flippedCards.forEach(c => c.classList.remove('flipped'));
+                        
+                        // Play slide intro if audio is on
+                        setTimeout(() => {
+                            speak(slide.getAttribute('data-audio'));
+                        }, 400); // slight delay for animation
                     } else {
                         slide.classList.remove('active');
                     }
@@ -245,10 +510,10 @@
                 // Update dots
                 dots.forEach((dot, index) => {
                     if (index === currentSlide) {
-                        dot.classList.add('w-6', 'bg-blue-600');
+                        dot.classList.add('w-8', 'bg-blue-600');
                         dot.classList.remove('w-2', 'bg-slate-300');
                     } else {
-                        dot.classList.remove('w-6', 'bg-blue-600');
+                        dot.classList.remove('w-8', 'bg-blue-600');
                         dot.classList.add('w-2', 'bg-slate-300');
                     }
                 });
@@ -258,9 +523,9 @@
 
                 // Update Next Button Text
                 if (currentSlide === slides.length - 1) {
-                    nextBtn.innerHTML = `Finish <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+                    nextBtn.innerHTML = `Finish Module`;
                 } else {
-                    nextBtn.innerHTML = `Next <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`;
+                    nextBtn.innerHTML = `Continue`;
                 }
             }
 
@@ -276,14 +541,18 @@
                     currentSlide++;
                     updateCarousel();
                 } else {
-                    // Logic for when they click Finish
-                    // e.g. parent.postMessage('finished', '*') if embedded
-                    console.log("Carousel finished");
+                    console.log("Module finished");
+                    // Integration hook for Mindsmith or SCORM wrapper
                 }
             });
 
             // Initialize state
             updateCarousel();
+            
+            // Handle cleanup if window unloads
+            window.addEventListener('beforeunload', () => {
+                synth.cancel();
+            });
         });
     </script>
 </body>
