@@ -10,7 +10,7 @@
         
         body, html {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f9fafb; /* Matches Mindsmith block background */
             color: #1e293b;
             /* Prevent scrolling completely */
             overflow: hidden; 
@@ -19,6 +19,10 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        .card-top-border {
+            border-top: 4px solid #2563eb; /* Updated to Mindsmith's blue */
         }
 
         .card-top-border {
@@ -53,12 +57,12 @@
         .slide {
             grid-area: slide;
             opacity: 0;
-            transform: scale(0.90) translateY(10px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: scale(0.95) translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
             pointer-events: none;
             visibility: hidden;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px; /* Increased to fill dead space */
             margin: 0 auto;
         }
 
@@ -73,43 +77,43 @@
 <body>
 
     <!-- Main Content Area -->
-    <div class="slider-container">
+    <div class="slider-container px-4 md:px-12">
         
         <!-- SLIDE 1 -->
         <section class="slide active" id="slide-0">
-            <div class="text-center mb-5">
-                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 mb-1">The Common Approach Before 2025</h1>
-                <p class="text-slate-600 text-sm md:text-base">Before the new guidance, chaperoning in general practice had significant gaps.</p>
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">The Common Approach Before 2025</h1>
+                <p class="text-slate-600 text-base md:text-lg">Before the new guidance, chaperoning in general practice had significant gaps.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                <div class="bg-white rounded-lg shadow-sm p-4 card-top-border">
-                    <h3 class="text-base font-bold text-slate-800 mb-1">Reactive, not proactive</h3>
-                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 card-top-border flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3">Reactive, not proactive</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
                         A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.
                     </p>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-4 card-top-border">
-                    <h3 class="text-base font-bold text-slate-800 mb-1">No requirement at booking</h3>
-                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 card-top-border flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3">No requirement at booking</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
                         There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.
                     </p>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-4 card-top-border">
-                    <h3 class="text-base font-bold text-slate-800 mb-1">Family members accepted</h3>
-                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 card-top-border flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3">Family members accepted</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
                         In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.
                     </p>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-4 card-top-border md:col-span-1 sm:col-span-2">
-                    <h3 class="text-base font-bold text-slate-800 mb-1">Remote consultations uncovered</h3>
-                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 card-top-border md:col-span-1 flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3">Remote consultations uncovered</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
                         Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.
                     </p>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-4 card-top-border md:col-span-2 sm:col-span-2">
-                    <h3 class="text-base font-bold text-slate-800 mb-1">Inconsistent documentation</h3>
-                    <p class="text-slate-600 text-xs md:text-sm leading-relaxed">
+                <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 card-top-border md:col-span-2 flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3">Inconsistent documentation</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
                         Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.
                     </p>
                 </div>
@@ -118,44 +122,44 @@
 
         <!-- SLIDE 2 -->
         <section class="slide" id="slide-1">
-            <div class="text-center mb-6">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-1">Where the Gaps Created Risk</h2>
-                <p class="text-slate-600 text-sm md:text-base">These were not minor administrative oversights. Each gap created real risk.</p>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Where the Gaps Created Risk</h2>
+                <p class="text-slate-600 text-base md:text-lg">These were not minor administrative oversights. Each gap created real risk.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-start">
-                    <div class="icon-circle">i</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex items-start">
+                    <div class="icon-circle mt-1">i</div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-800 mb-1">Patient risk</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Patient risk</h3>
+                        <p class="text-slate-600 text-base leading-relaxed">
                             Patients unaware of their right could not exercise it. Vulnerable groups, including children and those with communication needs, were particularly exposed.
                         </p>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-start">
-                    <div class="icon-circle">i</div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex items-start">
+                    <div class="icon-circle mt-1">i</div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-800 mb-1">Clinician risk</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Clinician risk</h3>
+                        <p class="text-slate-600 text-base leading-relaxed">
                             Without a documented independent witness, clinicians had no protection against unfounded allegations. Incomplete records left practices unable to demonstrate safe practice to the CQC.
                         </p>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-start">
-                    <div class="icon-circle">i</div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex items-start">
+                    <div class="icon-circle mt-1">i</div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-800 mb-1">Safeguarding gap</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Safeguarding gap</h3>
+                        <p class="text-slate-600 text-base leading-relaxed">
                             Use of family members as informal chaperones, particularly for children, meant no independent safeguarding presence during intimate examinations.
                         </p>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-start">
-                    <div class="icon-circle">i</div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 flex items-start">
+                    <div class="icon-circle mt-1">i</div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-800 mb-1">Policy gap</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Policy gap</h3>
+                        <p class="text-slate-600 text-base leading-relaxed">
                             Remote consultations were entirely outside most chaperone policies, at a time when digital-image-based clinical decisions were increasingly common.
                         </p>
                     </div>
@@ -165,27 +169,27 @@
 
         <!-- SLIDE 3 -->
         <section class="slide" id="slide-2">
-            <div class="text-center mb-6">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-1">Why National Change Was Needed</h2>
-                <p class="text-slate-600 text-sm md:text-base">The December 2025 NHS England guidance did not emerge in isolation. It was driven by several key factors:</p>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Why National Change Was Needed</h2>
+                <p class="text-slate-600 text-base md:text-lg">The December 2025 NHS England guidance did not emerge in isolation. It was driven by several key factors:</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white rounded-xl shadow-sm p-6 card-top-border h-full">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">The NHS Sexual Safety Charter</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white rounded-2xl shadow-sm p-8 card-top-border h-full flex flex-col justify-start">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">The NHS Sexual Safety Charter</h3>
+                    <p class="text-slate-600 text-base leading-relaxed">
                         Chaperoning is now a direct delivery mechanism of the Charter, which commits every NHS organisation to zero tolerance of sexual misconduct.
                     </p>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-6 card-top-border h-full">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">CQC inspection evidence</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
+                <div class="bg-white rounded-2xl shadow-sm p-8 card-top-border h-full flex flex-col justify-start">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">CQC inspection evidence</h3>
+                    <p class="text-slate-600 text-base leading-relaxed">
                         Inspectors found significant variation in how practices offered, recorded and evidenced chaperoning.
                     </p>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-6 card-top-border h-full">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Patient safety incidents</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
+                <div class="bg-white rounded-2xl shadow-sm p-8 card-top-border h-full flex flex-col justify-start">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Patient safety incidents</h3>
+                    <p class="text-slate-600 text-base leading-relaxed">
                         A pattern of incidents in which the absence of an independent chaperone reduced the ability to investigate or substantiate patient concerns.
                     </p>
                 </div>
@@ -193,28 +197,28 @@
         </section>
     </div>
 
-    <!-- Navigation Controls (Fixed at bottom) -->
-    <div class="bg-white border-t border-slate-200 py-4 px-6 flex justify-between items-center shadow-lg relative z-10 shrink-0">
+    <!-- Navigation Controls (Matches Mindsmith style) -->
+    <div class="w-full max-w-7xl mx-auto py-6 px-8 flex justify-between items-center relative z-10 shrink-0 bg-transparent">
         
         <!-- Previous Button -->
-        <button id="prevBtn" class="flex items-center text-slate-600 hover:text-blue-700 font-medium transition-colors disabled:opacity-30 disabled:hover:text-slate-600 cursor-pointer disabled:cursor-not-allowed">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button id="prevBtn" class="flex items-center text-slate-400 hover:text-slate-600 font-medium transition-colors disabled:opacity-50 disabled:hover:text-slate-400 cursor-pointer disabled:cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
             Previous
         </button>
 
         <!-- Progress Indicators -->
-        <div class="flex space-x-2" id="dots-container">
+        <div class="flex space-x-2 items-center" id="dots-container">
             <div class="dot h-2 w-6 bg-blue-600 rounded-full transition-all duration-300"></div>
             <div class="dot h-2 w-2 bg-slate-300 rounded-full transition-all duration-300"></div>
             <div class="dot h-2 w-2 bg-slate-300 rounded-full transition-all duration-300"></div>
         </div>
 
         <!-- Next Button -->
-        <button id="nextBtn" class="flex items-center text-white bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-md font-medium transition-colors cursor-pointer shadow-sm">
+        <button id="nextBtn" class="flex items-center text-white bg-blue-600 hover:bg-blue-700 py-2.5 px-5 rounded-lg font-medium transition-colors cursor-pointer shadow-sm">
             Next
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
         </button>
