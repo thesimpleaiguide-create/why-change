@@ -199,6 +199,17 @@
 </head>
 <body>
 
+    <!-- Hidden Audio Elements -->
+    <audio id="audio-1_Introduction" src="1_Introduction.wav" preload="auto"></audio>
+    <audio id="audio-Card_1" src="Card_1.wav" preload="auto"></audio>
+    <audio id="audio-Card_2" src="Card_2.wav" preload="auto"></audio>
+    <audio id="audio-Card_3" src="Card_3.wav" preload="auto"></audio>
+    <audio id="audio-Card_4" src="Card_4.wav" preload="auto"></audio>
+    <audio id="audio-Card_5" src="Card_5.wav" preload="auto"></audio>
+    
+    <!-- Slide 2 and 3 retain TTS for now until provided custom audio -->
+    <audio id="tts-audio-player"></audio>
+
     <div id="app-container">
         
         <header class="flex justify-between items-center mb-6 shrink-0">
@@ -214,8 +225,8 @@
                 <svg class="w-5 h-5 text-slate-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
                 <span class="text-sm font-medium text-slate-700 mr-3">Audio Narration</span>
                 <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                    <input type="checkbox" name="toggle" id="audioToggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-slate-300 appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0"/>
-                    <label for="audioToggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-300 cursor-pointer transition-colors duration-300"></label>
+                    <input type="checkbox" name="toggle" id="audioToggle" checked class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-slate-300 appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0"/>
+                    <label for="audioToggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-blue-600 cursor-pointer transition-colors duration-300"></label>
                 </div>
             </div>
         </header>
@@ -223,7 +234,7 @@
         <main class="slider-viewport">
             
             <!-- SLIDE 1: Interactive Grid (Kinesthetic/Reading) -->
-            <section class="slide active" id="slide-0" data-audio="Before the new guidance, chaperoning in general practice had significant gaps. Tap the cards below to explore the common approaches before 2025.">
+            <section class="slide active" id="slide-0" data-audio-file="audio-1_Introduction">
                 <div class="text-center mb-6 shrink-0">
                     <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">The Pre-2025 Reality</h1>
                     <p class="text-slate-500 text-lg">Tap to uncover the historical gaps in chaperoning practice.</p>
@@ -232,7 +243,7 @@
                 <!-- Dynamically sized grid that fills available space -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-full items-stretch pb-4">
                     
-                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="Reactive, not proactive. A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.">
+                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio-file="audio-Card_1">
                         <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
                                 <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">1</span>
@@ -248,7 +259,7 @@
                         </div>
                     </div>
 
-                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="No requirement at booking. There was no expectation to raise the possibility at the time of booking. The offer arrived moments before the examination.">
+                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio-file="audio-Card_2">
                         <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
                                 <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">2</span>
@@ -264,7 +275,7 @@
                         </div>
                     </div>
 
-                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="Family members accepted. Relatives accompanied the patient and were treated informally as fulfilling the chaperone function, without training or impartiality.">
+                    <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio-file="audio-Card_3">
                         <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
                                 <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">3</span>
@@ -280,7 +291,7 @@
                         </div>
                     </div>
 
-                    <div class="reveal-card rounded-xl p-5 lg:col-span-1 md:col-span-2" onclick="toggleCard(this)" data-audio="Remote consultations uncovered. Chaperoning policy applied only to face-to-face examinations, ignoring digital images.">
+                    <div class="reveal-card rounded-xl p-5 lg:col-span-1 md:col-span-2" onclick="toggleCard(this)" data-audio-file="audio-Card_4">
                         <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
                                 <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">4</span>
@@ -296,7 +307,7 @@
                         </div>
                     </div>
 
-                    <div class="reveal-card rounded-xl p-5 lg:col-span-2 md:col-span-2" onclick="toggleCard(this)" data-audio="Inconsistent documentation. Clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.">
+                    <div class="reveal-card rounded-xl p-5 lg:col-span-2 md:col-span-2" onclick="toggleCard(this)" data-audio-file="audio-Card_5">
                         <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
                                 <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">5</span>
@@ -314,7 +325,7 @@
                 </div>
             </section>
 
-            <section class="slide" id="slide-1" data-audio="These were not minor administrative oversights. Each gap created real risk. Flip the cards to examine the specific risks.">
+            <section class="slide" id="slide-1" data-tts="These were not minor administrative oversights. Each gap created real risk. Flip the cards to examine the specific risks.">
                 <div class="text-center mb-6 shrink-0">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">The Impact of the Gaps</h2>
                     <p class="text-slate-500 text-lg">Click the cards to reveal the hidden risks.</p>
@@ -322,7 +333,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full items-stretch pb-4">
                     
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Patient risk. Patients unaware of their right could not exercise it. Vulnerable groups were particularly exposed.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Patient risk. Patients unaware of their right could not exercise it. Vulnerable groups were particularly exposed.">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -338,7 +349,7 @@
                         </div>
                     </div>
 
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Clinician risk. Without a documented independent witness, clinicians had no protection against unfounded allegations.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Clinician risk. Without a documented independent witness, clinicians had no protection against unfounded allegations.">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -354,7 +365,7 @@
                         </div>
                     </div>
 
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Safeguarding gap. Use of family members meant no independent safeguarding presence during intimate examinations.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Safeguarding gap. Use of family members meant no independent safeguarding presence during intimate examinations.">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -370,7 +381,7 @@
                         </div>
                     </div>
 
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio="Policy gap. Remote consultations were entirely outside most chaperone policies.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Policy gap. Remote consultations were entirely outside most chaperone policies.">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -389,7 +400,7 @@
                 </div>
             </section>
 
-            <section class="slide" id="slide-2" data-audio="The December 2025 NHS England guidance did not emerge in isolation. It was driven by three key factors. Hover or click to read more.">
+            <section class="slide" id="slide-2" data-tts="The December 2025 NHS England guidance did not emerge in isolation. It was driven by three key factors. Hover or click to read more.">
                 <div class="text-center mb-8 shrink-0">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">Catalysts for Change</h2>
                     <p class="text-slate-500 text-lg">Why national guidance became necessary.</p>
@@ -397,7 +408,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full items-stretch pb-4">
                     
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-audio="The NHS Sexual Safety Charter. Chaperoning is now a direct delivery mechanism of the Charter, committing to zero tolerance.">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-tts="The NHS Sexual Safety Charter. Chaperoning is now a direct delivery mechanism of the Charter, committing to zero tolerance.">
                         <div>
                             <div class="bg-white/20 w-14 h-14 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
                                 <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -409,7 +420,7 @@
                         </p>
                     </div>
 
-                    <div class="bg-gradient-to-br from-slate-700 to-slate-900 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-audio="CQC inspection evidence. Inspectors found significant variation in how practices offered and recorded chaperoning.">
+                    <div class="bg-gradient-to-br from-slate-700 to-slate-900 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-tts="CQC inspection evidence. Inspectors found significant variation in how practices offered and recorded chaperoning.">
                         <div>
                             <div class="bg-white/10 w-14 h-14 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
                                 <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
@@ -421,7 +432,7 @@
                         </p>
                     </div>
 
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-audio="Patient safety incidents. A pattern of incidents where the absence of a chaperone reduced the ability to substantiate concerns.">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-8 text-white shadow-xl flex flex-col justify-between transform transition hover:-translate-y-2 hover:shadow-2xl cursor-pointer group" onmouseenter="playHoverAudio(this)" data-tts="Patient safety incidents. A pattern of incidents where the absence of a chaperone reduced the ability to substantiate concerns.">
                         <div>
                             <div class="bg-white/20 w-14 h-14 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
                                 <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -467,18 +478,43 @@
             const dots = document.querySelectorAll('.dot');
             const audioToggle = document.getElementById('audioToggle');
             let currentSlide = 0;
-            let synth = window.speechSynthesis;
+            
+            // Audio System
+            const synth = window.speechSynthesis;
+            let currentAudioElement = null; // Track the playing HTML5 audio element
 
-            // Audio capabilities
-            function speak(text) {
+            function stopAllAudio() {
+                // Stop HTML5 Audio
+                if (currentAudioElement) {
+                    currentAudioElement.pause();
+                    currentAudioElement.currentTime = 0;
+                    currentAudioElement = null;
+                }
+                // Stop TTS
+                synth.cancel();
+            }
+
+            function speak(element) {
                 if (!audioToggle.checked) return;
                 
-                // Cancel current speech if any
-                synth.cancel();
+                stopAllAudio(); // Cancel current speech if any
                 
+                // Try to play custom audio file first
+                const audioFileId = element.getAttribute('data-audio-file');
+                if (audioFileId) {
+                    const audioEl = document.getElementById(audioFileId);
+                    if (audioEl) {
+                        currentAudioElement = audioEl;
+                        audioEl.play().catch(e => console.log("Audio play failed:", e));
+                        return; // Exit, don't use TTS
+                    }
+                }
+                
+                // Fallback to TTS if no file or file failed
+                const text = element.getAttribute('data-tts');
                 if (text) {
                     const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.rate = 1.05; // Slightly faster than default
+                    utterance.rate = 1.05;
                     utterance.pitch = 1;
                     synth.speak(utterance);
                 }
@@ -500,14 +536,14 @@
                     element.classList.add('open');
                     const icon = element.querySelector('svg');
                     if(icon) icon.style.transform = 'rotate(180deg)';
-                    speak(element.getAttribute('data-audio'));
+                    speak(element);
                 }
             };
 
             window.toggleFlip = function(element) {
                 element.classList.toggle('flipped');
                 if(element.classList.contains('flipped')) {
-                    speak(element.getAttribute('data-audio'));
+                    speak(element);
                     // hide pulse indicator once clicked
                     const pulse = element.querySelector('.pulse-indicator');
                     if(pulse) pulse.classList.remove('pulse-indicator');
@@ -516,22 +552,22 @@
 
             window.playHoverAudio = function(element) {
                 // Only play if not currently speaking to avoid spam
-                if(!synth.speaking) {
-                    speak(element.getAttribute('data-audio'));
+                if(!synth.speaking && (!currentAudioElement || currentAudioElement.paused)) {
+                    speak(element);
                 }
             };
 
             // Stop speaking when user toggles off
             audioToggle.addEventListener('change', (e) => {
                 if(!e.target.checked) {
-                    synth.cancel();
+                    stopAllAudio();
                 } else {
-                    speak(slides[currentSlide].getAttribute('data-audio'));
+                    speak(slides[currentSlide]);
                 }
             });
 
             function updateCarousel() {
-                synth.cancel(); // Stop talking when changing slides
+                stopAllAudio(); // Stop talking when changing slides
 
                 // Update slides
                 slides.forEach((slide, index) => {
@@ -545,7 +581,7 @@
                         
                         // Play slide intro if audio is on
                         setTimeout(() => {
-                            speak(slide.getAttribute('data-audio'));
+                            speak(slide);
                         }, 400); // slight delay for animation
                     } else {
                         slide.classList.remove('active');
@@ -591,12 +627,25 @@
                 }
             });
 
+            // Handle user interaction required for audio playback on first load
+            let initialInteractionDone = false;
+            document.body.addEventListener('click', () => {
+                if (!initialInteractionDone && audioToggle.checked) {
+                    initialInteractionDone = true;
+                    // Check if slide 0 is active and needs intro audio played
+                    if (currentSlide === 0) {
+                         speak(slides[0]);
+                    }
+                }
+            }, { once: true });
+
+
             // Initialize state
             updateCarousel();
             
             // Handle cleanup if window unloads
             window.addEventListener('beforeunload', () => {
-                synth.cancel();
+                stopAllAudio();
             });
         });
     </script>
