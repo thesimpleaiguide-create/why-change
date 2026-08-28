@@ -89,7 +89,7 @@
         }
 
         .reveal-card.open .reveal-content {
-            max-height: 300px; /* Increased to accommodate images */
+            max-height: 200px; /* Adjusted to fit layout */
             opacity: 1;
             margin-top: 1rem;
         }
@@ -100,20 +100,34 @@
             border-left: 4px solid #1d4ed8;
         }
 
-        /* Image styling within the reveal content */
-        .reveal-image {
-            width: 100%;
-            height: 120px; /* Fixed height for consistency */
-            object-fit: contain; /* Ensure the whole image is visible */
-            border-radius: 0.5rem;
-            margin-bottom: 0.75rem;
-            display: none; /* Hidden initially */
+        /* Image styling in closed and open states */
+        .card-image-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 130px;
         }
         
-        .reveal-card.open .reveal-image {
-            display: block; /* Show when open */
+        .card-image-wrapper img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            mix-blend-mode: multiply; /* Blends white JPEG backgrounds naturally */
+            transition: transform 0.5s ease;
         }
-
+        
+        .reveal-card:hover .card-image-wrapper img {
+            transform: scale(1.05);
+        }
+        
+        .reveal-card.open .card-image-wrapper {
+            height: 80px; /* Shrink dynamically to make room for text */
+            margin-top: 1rem;
+        }
 
         .flip-container {
             perspective: 1000px;
@@ -219,72 +233,82 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-full items-stretch pb-4">
                     
                     <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="Reactive, not proactive. A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.">
-                        <div class="flex justify-between items-center w-full">
+                        <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
-                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span>
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">1</span>
                                 Reactive, not proactive
                             </h3>
-                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-image-wrapper">
+                            <img src="1_Reactive.jpeg" alt="Doctor rushing with stopwatch">
                         </div>
                         <div class="reveal-content flex flex-col items-center">
-                            <img src="1_Reactive.jpg" alt="Doctor rushing with stopwatch" class="reveal-image">
-                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.</p>
+                            <p class="text-slate-600 text-sm leading-relaxed text-center">A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.</p>
                         </div>
                     </div>
 
                     <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="No requirement at booking. There was no expectation to raise the possibility at the time of booking. The offer arrived moments before the examination.">
-                        <div class="flex justify-between items-center w-full">
+                        <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
-                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">2</span>
                                 Missing at booking
                             </h3>
-                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-image-wrapper">
+                            <img src="2_Missing.jpeg" alt="Clipboard with missing information">
                         </div>
                         <div class="reveal-content flex flex-col items-center">
-                            <img src="2_Missing.jpg" alt="Clipboard with missing information" class="reveal-image">
-                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.</p>
+                            <p class="text-slate-600 text-sm leading-relaxed text-center">There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.</p>
                         </div>
                     </div>
 
                     <div class="reveal-card rounded-xl p-5" onclick="toggleCard(this)" data-audio="Family members accepted. Relatives accompanied the patient and were treated informally as fulfilling the chaperone function, without training or impartiality.">
-                        <div class="flex justify-between items-center w-full">
+                        <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
-                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">3</span>
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">3</span>
                                 Informal relatives
                             </h3>
-                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-image-wrapper">
+                            <img src="3_Informal.jpeg" alt="Informal setting outside clinic">
                         </div>
                         <div class="reveal-content flex flex-col items-center">
-                            <img src="3_Informal.jpg" alt="Informal setting outside clinic" class="reveal-image">
-                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.</p>
+                            <p class="text-slate-600 text-sm leading-relaxed text-center">In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.</p>
                         </div>
                     </div>
 
                     <div class="reveal-card rounded-xl p-5 lg:col-span-1 md:col-span-2" onclick="toggleCard(this)" data-audio="Remote consultations uncovered. Chaperoning policy applied only to face-to-face examinations, ignoring digital images.">
-                        <div class="flex justify-between items-center w-full">
+                        <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
-                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">4</span>
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">4</span>
                                 Digital blindspots
                             </h3>
-                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-image-wrapper">
+                            <img src="4_Digital.jpeg" alt="Blindfolded figure with digital devices">
                         </div>
                         <div class="reveal-content flex flex-col items-center">
-                            <img src="4_Digital.jpg" alt="Blindfolded figure with digital devices" class="reveal-image">
-                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.</p>
+                            <p class="text-slate-600 text-sm leading-relaxed text-center">Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.</p>
                         </div>
                     </div>
 
                     <div class="reveal-card rounded-xl p-5 lg:col-span-2 md:col-span-2" onclick="toggleCard(this)" data-audio="Inconsistent documentation. Clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.">
-                        <div class="flex justify-between items-center w-full">
+                        <div class="flex justify-between items-center w-full shrink-0">
                             <h3 class="text-lg font-bold text-slate-800 flex items-center">
-                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">5</span>
+                                <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm shrink-0">5</span>
                                 Poor documentation
                             </h3>
-                            <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-5 h-5 text-blue-500 transform transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-image-wrapper">
+                            <img src="5_Poor.jpeg" alt="Messy files and warning sign">
                         </div>
                         <div class="reveal-content flex flex-col items-center">
-                            <img src="5_Poor.jpg" alt="Messy files and warning sign" class="reveal-image">
-                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.</p>
+                            <p class="text-slate-600 text-sm leading-relaxed text-center">Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.</p>
                         </div>
                     </div>
                 </div>
