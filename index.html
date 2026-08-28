@@ -206,8 +206,13 @@
     <audio id="audio-Card_3" src="Card_3.wav" preload="auto"></audio>
     <audio id="audio-Card_4" src="Card_4.wav" preload="auto"></audio>
     <audio id="audio-Card_5" src="Card_5.wav" preload="auto"></audio>
+    <audio id="audio-2_Introduction" src="2_Introduction.wav" preload="auto"></audio>
+    <audio id="audio-Risk_1" src="Risk_1.wav" preload="auto"></audio>
+    <audio id="audio-Risk_2" src="Risk_2.wav" preload="auto"></audio>
+    <audio id="audio-Risk_3" src="Risk_3.wav" preload="auto"></audio>
+    <audio id="audio-Risk_4" src="Risk_4.wav" preload="auto"></audio>
     
-    <!-- Slide 2 and 3 retain TTS for now until provided custom audio -->
+    <!-- Slide 3 retains TTS for now until provided custom audio -->
     <audio id="tts-audio-player"></audio>
 
     <div id="app-container">
@@ -325,7 +330,7 @@
                 </div>
             </section>
 
-            <section class="slide" id="slide-1" data-tts="These were not minor administrative oversights. Each gap created real risk. Flip the cards to examine the specific risks.">
+            <section class="slide" id="slide-1" data-audio-file="audio-2_Introduction">
                 <div class="text-center mb-6 shrink-0">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">The Impact of the Gaps</h2>
                     <p class="text-slate-500 text-lg">Click the cards to reveal the hidden risks.</p>
@@ -333,7 +338,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full items-stretch pb-4">
                     
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Patient risk. Patients unaware of their right could not exercise it. Vulnerable groups were particularly exposed.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio-file="audio-Risk_1">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -349,7 +354,7 @@
                         </div>
                     </div>
 
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Clinician risk. Without a documented independent witness, clinicians had no protection against unfounded allegations.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio-file="audio-Risk_2">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -365,7 +370,7 @@
                         </div>
                     </div>
 
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Safeguarding gap. Use of family members meant no independent safeguarding presence during intimate examinations.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio-file="audio-Risk_3">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
@@ -381,7 +386,7 @@
                         </div>
                     </div>
 
-                    <div class="flip-container group" onclick="toggleFlip(this)" data-tts="Policy gap. Remote consultations were entirely outside most chaperone policies.">
+                    <div class="flip-container group" onclick="toggleFlip(this)" data-audio-file="audio-Risk_4">
                         <div class="flip-inner">
                             <div class="flip-front">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform pulse-indicator">
