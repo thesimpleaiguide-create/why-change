@@ -85,10 +85,11 @@
             max-height: 0;
             opacity: 0;
             transition: all 0.5s ease-out;
+            overflow: hidden;
         }
 
         .reveal-card.open .reveal-content {
-            max-height: 200px; /* arbitrary large enough height */
+            max-height: 300px; /* Increased to accommodate images */
             opacity: 1;
             margin-top: 1rem;
         }
@@ -98,6 +99,21 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border-left: 4px solid #1d4ed8;
         }
+
+        /* Image styling within the reveal content */
+        .reveal-image {
+            width: 100%;
+            height: 120px; /* Fixed height for consistency */
+            object-fit: contain; /* Ensure the whole image is visible */
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            display: none; /* Hidden initially */
+        }
+        
+        .reveal-card.open .reveal-image {
+            display: block; /* Show when open */
+        }
+
 
         .flip-container {
             perspective: 1000px;
@@ -210,8 +226,9 @@
                             </h3>
                             <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div class="reveal-content">
-                            <p class="text-slate-600 text-base leading-relaxed mt-2">A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.</p>
+                        <div class="reveal-content flex flex-col items-center">
+                            <img src="1_Reactive.jpg" alt="Doctor rushing with stopwatch" class="reveal-image">
+                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">A chaperone was made available on request but rarely offered proactively. Patients who did not know to ask often proceeded without one.</p>
                         </div>
                     </div>
 
@@ -223,8 +240,9 @@
                             </h3>
                             <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div class="reveal-content">
-                            <p class="text-slate-600 text-base leading-relaxed mt-2">There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.</p>
+                        <div class="reveal-content flex flex-col items-center">
+                            <img src="2_Missing.jpg" alt="Clipboard with missing information" class="reveal-image">
+                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">There was no expectation to raise the possibility at the time of booking. The offer, if it came at all, arrived moments before the examination.</p>
                         </div>
                     </div>
 
@@ -236,8 +254,9 @@
                             </h3>
                             <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div class="reveal-content">
-                            <p class="text-slate-600 text-base leading-relaxed mt-2">In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.</p>
+                        <div class="reveal-content flex flex-col items-center">
+                            <img src="3_Informal.jpg" alt="Informal setting outside clinic" class="reveal-image">
+                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">In many settings, a parent, partner or friend accompanied the patient and was treated informally as fulfilling the chaperone function, without training or impartiality.</p>
                         </div>
                     </div>
 
@@ -249,8 +268,9 @@
                             </h3>
                             <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div class="reveal-content">
-                            <p class="text-slate-600 text-base leading-relaxed mt-2">Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.</p>
+                        <div class="reveal-content flex flex-col items-center">
+                            <img src="4_Digital.jpg" alt="Blindfolded figure with digital devices" class="reveal-image">
+                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">Chaperoning policy applied only to face-to-face examinations. Video and online consultations had no formal chaperone framework, even where digital images were required.</p>
                         </div>
                     </div>
 
@@ -262,8 +282,9 @@
                             </h3>
                             <svg class="w-5 h-5 text-blue-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div class="reveal-content">
-                            <p class="text-slate-600 text-base leading-relaxed mt-2">Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.</p>
+                        <div class="reveal-content flex flex-col items-center">
+                            <img src="5_Poor.jpg" alt="Messy files and warning sign" class="reveal-image">
+                            <p class="text-slate-600 text-sm leading-relaxed mt-1 text-center">Recording practices varied widely. Many clinicians noted presence but did not record the offer, patient decision or chaperone identity systematically.</p>
                         </div>
                     </div>
                 </div>
