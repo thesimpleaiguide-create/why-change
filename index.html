@@ -132,6 +132,7 @@
         .flip-container {
             perspective: 1000px;
             height: 100%;
+            width: 100%;
             min-height: 220px;
             cursor: pointer;
         }
@@ -341,7 +342,7 @@
                     <p class="text-slate-500 text-lg">Tap to flip the cards and examine the specific risks.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full items-stretch pb-4 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full w-full items-stretch pb-4 max-w-4xl mx-auto">
                     
                     <div class="flip-container pulse-indicator" onclick="toggleFlip(this)" data-audio-file="audio-Risk_1">
                         <div class="flip-inner">
